@@ -10,7 +10,7 @@
 
 <script>
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { mapState } from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state:{
@@ -24,17 +24,16 @@ const store = new Vuex.Store({
 })
 export default {
   name: 'app',
+  store,
   data(){
     return {
       // 放在这里虽然状态改变了，但是不会重新赋值给msg，需在计算属性中响应
       msg: this.$store.state.msg,
     }
   },
-  computed:{
-    message(){
-      return store.state.count
-    }
-  },
+  computed:mapState({
+    message: 'count'
+  }),
   methods:{
     onChange1(){
       store.commit('increment')
