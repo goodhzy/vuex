@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div>message:{{message}}</div>
+    <div>doneMessage:{{doneCount}}</div>
     <div>msg:{{msg}}</div>
     <div class="btn" @click="onChange1">按钮1</div>
     <div class="btn" @click="onChange2">按钮2</div>
@@ -10,11 +11,16 @@
 
 <script>
 import Vue from 'vue'
-import Vuex, { mapState } from 'vuex'
+import Vuex, { mapState,mapGetters } from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state:{
     count: 0
+  },
+  getters:{
+    doneCount: state=>{
+      return state.count++
+    }
   },
   mutations:{
     increment(state){
@@ -31,9 +37,15 @@ export default {
       msg: this.$store.state.msg,
     }
   },
-  computed:mapState({
+  computed:{
+    ...mapState({
     message: 'count'
   }),
+  ...mapGetters({
+    doneCount: 'doneCount'
+  })
+  }
+  ,
   methods:{
     onChange1(){
       store.commit('increment')
